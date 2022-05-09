@@ -29,6 +29,7 @@ Everything except `index.html` was removed from `/Public`.
 
 Packages installed
  - @materials/ui
+ - @mui/icons-material
  - @emotion/react
  - @emotion/styled
  - react-router-dom
