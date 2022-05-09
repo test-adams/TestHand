@@ -1,7 +1,7 @@
 import * as React from 'react';
-import './App.css';
 
-function App() {
+
+const  App = () => {
   return (
    <h1>Lend A Hand !</h1>
   );

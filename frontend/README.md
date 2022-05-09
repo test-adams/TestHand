@@ -25,7 +25,7 @@ Files removed:
 
 `App.tsx` was renamed to `LendAHand.tsx` 
 
-The folder `Public` and its contents were removed.
+Everything except `index.html` was removed from `/Public`.
 
 Packages installed
  - @materials/ui
