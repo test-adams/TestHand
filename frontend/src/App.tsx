@@ -1,9 +1,21 @@
 import * as React from 'react';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AppBar from './Components/AppBar';
+import { NotFound } from './Components/NotFound';
 
 
-const  App = () => {
+
+
+function App() {
   return (
-   <h1>Lend A Hand !</h1>
+    <>
+      <BrowserRouter>
+       <Routes>
+          <Route path="/" element={<AppBar />}></Route>
+          <Route path="*" element={<NotFound />}/>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
