@@ -14,7 +14,7 @@ const LandingPage = () => {
 				<img  
 					alt='Sharing' 
 					src={LANDING.imgsrc}
-					width={1400}
+					width={1200}
 				/>
 			</Box>
 		</>
