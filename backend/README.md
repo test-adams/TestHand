@@ -1,3 +1,11 @@
+# Build Backend:
+>
+> In backend directory: 
+> ```
+> cargo run
+> ```
+
+
 # API Routes:
 
 ## GET api/
