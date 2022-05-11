@@ -22,7 +22,7 @@ const AppBar = () => {
 			<Bar>
 				<Toolbar>
 					<Box display='flex' width={1} justifyContent='left'>
-						<Button>
+						<Button href='/'>
 							<Typography variant='h4' color='white' sx={{textTransform: 'none'}}>
 								{APPBAR.TITLE}
 							</Typography>
