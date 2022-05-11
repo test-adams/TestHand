@@ -1,10 +1,18 @@
+import { Outlet } from "react-router-dom";
 import {Box, AppBar as Bar, Toolbar, Typography, Button, ButtonGroup} from '@mui/material'
 import { APPBAR } from '../Constants';
 
 const AppBar = () => {
 
-	const buttonSX = {
-		mr: 1, 
+	const middleButtonSX = {
+		mr: 1,
+		ml: 10, 
+		textTransform: 'none',
+		borderRadius: 28
+	}
+
+	const rightButtonsSX = {
+		mr: 1,
 		textTransform: 'none',
 		borderRadius: 28
 	}
@@ -14,19 +22,21 @@ const AppBar = () => {
 			<Bar>
 				<Toolbar>
 					<Box display='flex' width={1} justifyContent='left'>
-						<Typography variant='h4'>
-							{APPBAR.TITLE}
-						</Typography>
+						<Button>
+							<Typography variant='h4' color='white' sx={{textTransform: 'none'}}>
+								{APPBAR.TITLE}
+							</Typography>
+						</Button>
 					</Box>
 
 					<Box width={1} display='flex' justifyContent='center'>
 						<ButtonGroup size='medium'  color='success' >
-							<Button sx={buttonSX} variant='contained'>
+							<Button sx={middleButtonSX} variant='contained'>
 								<Typography variant="h5">
 									{APPBAR.LEND}
 								</Typography>
 							</Button>
-							<Button sx={buttonSX} variant='contained'>
+							<Button sx={middleButtonSX} variant='contained'>
 								<Typography variant="h5">
 									{APPBAR.REQUEST}
 								</Typography>
@@ -36,12 +46,12 @@ const AppBar = () => {
 					</Box>
 
 					<Box width={1} display='flex' justifyContent='right'>
-						<Button sx={buttonSX} size='medium' variant='contained' color='info'>
+						<Button sx={rightButtonsSX} size='medium' variant='contained' color='info'>
 							<Typography variant="subtitle1" color='white'>
 								{APPBAR.PROFILE}
 							</Typography>
 						</Button>
-						<Button sx={buttonSX} size='medium' variant='contained' color='info'>
+						<Button sx={rightButtonsSX} size='medium' variant='contained' color='info'>
 							<Typography variant="subtitle1" color='white'>
 								{APPBAR.LOGIN}
 							</Typography>
@@ -50,7 +60,11 @@ const AppBar = () => {
 
 				</Toolbar>
 			</Bar>
+
+			<Outlet />
 		</Box>
+
+		
 	
 	);
 }
