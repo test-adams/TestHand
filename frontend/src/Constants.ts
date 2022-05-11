@@ -14,5 +14,6 @@ export const APPBAR = {
 
 
 export const LANDING = {
+	WELCOME: '	Welcome to Lend a hand! Click one of the above buttons to get started!',
 	imgsrc: 'https://thumbs.dreamstime.com/b/siblings-relationship-kids-sharing-delicious-fruit-together-sister-brother-holding-apple-siblings-relationship-kids-sharing-145343792.jpg'
 }
