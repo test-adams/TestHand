@@ -1,18 +1,19 @@
 import {Box, Typography, Button} from '@mui/material'
+import { E404 } from '../Constants';
 
 
-export const NotFound = () => (
+const NotFound = () => (
 	<Box>
-	  <Typography variant='h1'>404 - Not Found!</Typography>
+	  <Typography variant='h1'>{E404.TITLE}</Typography>
 	  <Box display='flex' mt={10}>
-		<Typography>Looks Like something went wrong. Better </Typography>
-		<Box mt={-1} ml={1}>
-			<Button sx={{textTransform: 'none'}} variant='contained' href='/'>
-				<Typography variant="body1">
-					Go Home
-				</Typography>
-			</Button>
-		</Box>
+			<Typography>{E404.MESSAGE}</Typography>
+			<Box mt={-1} ml={1}>
+				<Button sx={{textTransform: 'none'}} variant='contained' href='/'>
+					<Typography variant="body1">{E404.BUTTON}</Typography>
+				</Button>
+			</Box>
 	  </Box>
 	</Box>
 );
+
+export default NotFound;
