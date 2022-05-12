@@ -3,13 +3,11 @@ extern crate log;
 mod user;
 mod logger;
 mod api;
+mod config;
 
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 use std::io;
 
-// static globals for where to run server
-static HOST:&str = "localhost";
-static PORT:u16 = 9000;
 
 #[get("/")] // test landing page
 async fn test() -> impl Responder {
@@ -27,7 +25,8 @@ async fn main() -> io::Result<()> {
             info!("Logger initialized");
         }
     }
-    info!("Running backend at {}:{}", HOST, PORT); // log server start
+    let config:config::Config = config::Config::new();
+    info!("Running backend at {}:{}", config.host, config.port); // log server start
 
     // start server at HOST:PORT
     HttpServer::new(|| {
@@ -35,7 +34,7 @@ async fn main() -> io::Result<()> {
             .service(test)
             .service(api::config())
     })
-    .bind((HOST, PORT))?
+    .bind((config.host, config.port))?
     .run()
     .await
 }
