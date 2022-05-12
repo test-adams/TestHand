@@ -5,8 +5,7 @@
 ---
 ## About
 
-Frontend uses typescript, react and MUI.  
-After pulling, cd into frontend and run `npm install`. This will ensure you have all packages needed to run frontend.  
+Frontend uses Typescript, React and MUI.   
 
 ---
 ## To Run
