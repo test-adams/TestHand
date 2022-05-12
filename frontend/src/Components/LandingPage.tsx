@@ -10,7 +10,7 @@ const LandingPage = () => {
 					{LANDING.WELCOME}
 				</Typography>
 			</Box>
-			<Box width={1} display='flex' justifyContent='center'>
+			<Box  width={1} display='flex' justifyContent='center'>
 				<img  
 					alt='Sharing' 
 					src={LANDING.imgsrc}
