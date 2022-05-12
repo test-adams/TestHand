@@ -1,4 +1,7 @@
 # Build Backend:
+> Requires .env file in base directory
+> 
+> [Example .env file](../example.env) 
 >
 > In backend directory: 
 > ```
