@@ -9,6 +9,14 @@ Frontend uses typescript, react and MUI.
 After pulling, cd into frontend and run `npm install`. This will ensure you have all packages needed to run frontend.  
 
 ---
+## To Run
+
+1 - First pull the branch to ensure you have the most recent update  
+2 - cd into frontend  
+3 - run `npm install`  
+4 - run `npm run start`  
+
+---
 
 ## Creation Info
 Frontend is a react app created using `npx  create-react-app frontend --template typescript`  
