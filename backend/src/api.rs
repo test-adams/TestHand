@@ -1,4 +1,4 @@
-use actix_web::{web, get, post, Scope, HttpResponse, Responder};
+use actix_web::{web, get, Scope, HttpResponse, Responder};
 use crate::user;
 use serde::{Serialize, Deserialize};
 use crate::logger;
