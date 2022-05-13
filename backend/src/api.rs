@@ -8,7 +8,8 @@ static PREFIX:&str = "/api";
 
 #[derive(Serialize, Deserialize)]
 struct ApiStatus {
-    active: bool
+    api_active: bool,
+    db_active: bool
 }
 
 // return scope for api prefix with added function routes
@@ -23,11 +24,17 @@ pub fn log_api(method:&str, route:&str) {
     logger::route(method, PREFIX, route);
 }
 
-#[get("/")] // api base page
-async fn base() -> impl Responder {
-    log_api("GET", "/");
+#[get("/status")] // api base page
+async fn base(data: web::Data<SessionData>) -> impl Responder {
+    log_api("GET", "/status");
+    let db = &data.db;
+    let db_status = match db.pool {
+        Some(_) => true,
+        None => false
+    };
     let status = ApiStatus {
-        active: true
+        api_active: true,
+        db_active: db_status.clone()
     };
     HttpResponse::Ok().json(status)
 }
