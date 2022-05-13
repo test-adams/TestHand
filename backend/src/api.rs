@@ -1,7 +1,8 @@
 use actix_web::{web, get, Scope, HttpResponse, Responder};
-use crate::user;
 use serde::{Serialize, Deserialize};
+use crate::user::test_users;
 use crate::logger;
+use crate::SessionData;
 
 static PREFIX:&str = "/api";
 
@@ -32,7 +33,16 @@ async fn base() -> impl Responder {
 }
 
 #[get("/users")] // all users
-async fn all_users() -> impl Responder {
+async fn all_users(data: web::Data<SessionData>) -> impl Responder {
     log_api("GET", "/users");
-    HttpResponse::Ok().json(user::test_users())
+    let db = data.db.clone();
+
+    match db.get_users().await {
+        Some(users) => {
+            HttpResponse::Ok().json(users)
+        }
+        None => {
+            HttpResponse::Ok().json(test_users())
+        }
+    }
 }

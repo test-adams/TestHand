@@ -4,9 +4,14 @@ mod user;
 mod logger;
 mod api;
 mod config;
+mod db;
 
-use actix_web::{get, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, App, web, HttpResponse, HttpServer, Responder};
 use std::io;
+
+struct SessionData {
+    db: db::Db
+}
 
 
 #[get("/")] // test landing page
@@ -25,12 +30,17 @@ async fn main() -> io::Result<()> {
             info!("Logger initialized");
         }
     }
-    let config:config::Config = config::Config::new();
-    info!("Running backend at {}:{}", config.host, config.port); // log server start
 
-    // start server at HOST:PORT
-    HttpServer::new(|| {
+    let config = config::Config::new();
+    info!("Running backend at {}:{}", config.host, config.port); // log server start
+    
+    // start db connection
+    let db:db::Db = db::Db::from_env().await;
+
+    // start server at HOST:PORT, persisting Db connection
+    HttpServer::new(move || {
         App::new()
+            .app_data(web::Data::new(SessionData {db: db.clone()}))
             .service(test)
             .service(api::config())
     })
