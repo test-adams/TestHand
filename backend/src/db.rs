@@ -27,7 +27,6 @@ impl Db {
 
         match (username, password, host, db_name) {
             (Ok(un), Ok(pw), Ok(h), Ok(db)) => {
-                info!("Connected to Postgres DB {}/{}", h, db);
                 Db::new(un, pw, h, db).await
             }
             (_, _, _, _) => {
@@ -47,7 +46,10 @@ impl Db {
             .await;
 
         match pgpool {
-            Ok(pool) => {Some(pool)}
+            Ok(pool) => {
+                info!("Connected to Postgres DB {}/{}", host, db);
+                Some(pool)
+            }
             Err(err) => {
                 warn!("Database connection error: {}", err);
                 None
