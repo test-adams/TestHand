@@ -2,6 +2,7 @@ use sqlx::postgres::{PgPoolOptions, PgPool};
 use crate::user::User;
 use dotenv;
 
+#[derive(Clone)]
 pub struct Db {
     pub host: String,
     pub db_name: String,
