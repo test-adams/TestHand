@@ -1,5 +1,5 @@
 use sqlx::postgres::{PgPoolOptions, PgPool};
-use crate::user::User;
+use crate::models::user::User;
 use dotenv;
 
 #[derive(Clone)]

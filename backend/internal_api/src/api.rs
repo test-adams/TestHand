@@ -1,6 +1,6 @@
 use actix_web::{web, get, Scope, HttpResponse, Responder};
 use serde::{Serialize, Deserialize};
-use crate::user::test_users;
+use crate::models::user::test_users;
 use crate::logger;
 use crate::SessionData;
 
