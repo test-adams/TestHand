@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/joho/godotenv"
+	"github.com/lib/pq"
 	_ "github.com/lib/pq"
 )
 
@@ -24,6 +25,8 @@ type DbConfig struct {
 	Port int
 	Db   *sql.DB
 }
+
+type any interface{}
 
 func (cfg Config) connect() *DbConfig {
 	db_conn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s",
@@ -62,11 +65,35 @@ func EnvConnect() *DbConfig {
 	}
 }
 
-func (db_cfg *DbConfig) Query(qStr string) *sql.Rows {
-	if rows, err := db_cfg.Db.Query(qStr); err == nil {
+func (db_cfg *DbConfig) Query(qStr string, args ...any) *sql.Rows {
+	var rows *sql.Rows
+	var err error
+	if len(args) > 0 {
+		rows, err = db_cfg.Db.Query(qStr, pq.Array(args))
+	} else {
+		rows, err = db_cfg.Db.Query(qStr)
+	}
+	if err == nil {
 		return rows
 	} else {
-		fmt.Printf("[XAPI WARN] Error executing query %s: %s", qStr, err)
+		fmt.Printf("[XAPI WARN] Error executing query %s: %s\n", qStr, err)
+		return nil
+	}
+}
+
+func (db_cfg *DbConfig) QueryOne(qStr string, args ...any) *sql.Row {
+	var row *sql.Row
+	if len(args) > 1 {
+		row = db_cfg.Db.QueryRow(qStr, args)
+	} else if len(args) == 1 {
+		row = db_cfg.Db.QueryRow(qStr, args[0])
+	} else {
+		row = db_cfg.Db.QueryRow(qStr)
+	}
+	if row != nil {
+		return row
+	} else {
+		fmt.Printf("[XAPI WARN] Query returned 0 rows.\n")
 		return nil
 	}
 }

@@ -1,8 +1,8 @@
 package main
 
 import (
+	"external_api/api"
 	"external_api/db"
-	"external_api/models"
 	"fmt"
 	"log"
 
@@ -25,21 +25,7 @@ func main() {
 		})
 	})
 
-	// get all users
-	r.GET("/users", func(c *gin.Context) {
-		rows := pgdb.Query("SELECT * FROM users")
-		defer rows.Close()
-
-		var users []models.User
-		for rows.Next() {
-			var user models.User
-			rows.Scan(&user.Id, &user.Username)
-			users = append(users, user)
-		}
-		c.JSON(200, gin.H{
-			"users": users,
-		})
-	})
+	api.GroupApi(r, pgdb)
 
 	r.Run(fmt.Sprintf(":%d", pgdb.Port))
 	pgdb.Close()
