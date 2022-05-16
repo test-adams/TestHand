@@ -2,17 +2,20 @@ use serde::{Serialize, Deserialize};
 use sqlx::{FromRow};
 use crate::db::Db;
 
+
 #[derive(Serialize, Deserialize, FromRow)]
 pub struct User {
     pub id: i32,
     pub username: String,
+    pub password: String,
 }
 
 impl User {
-    pub fn new(id:i32, username: String) -> Self {
+    pub fn new(id:i32, username: String, password:String) -> Self {
         Self {
             id: id,
-            username: username
+            username: username,
+            password: password
         }
     }
 
@@ -36,7 +39,7 @@ impl User {
     }
 
     pub async fn to_db(&self, db: &Db) {
-        let q = format!("INSERT INTO users(id, username) VALUES ({}, '{}')", self.id, self.username);
+        let q = format!("INSERT INTO users(id, username) VALUES ({}, '{}', '{}');", self.id, self.username, self.password);
         match &db.pool {
             Some(pool) => {
                 match sqlx::query(&q)
@@ -51,7 +54,7 @@ impl User {
 }
 
 pub fn test_users() -> [User; 3] {
-    [User::new(1, "testuser1".to_string()),
-    User::new(2, "testuser2".to_string()),
-    User::new(3, "testuser3".to_string())]
+    [User::new(1, "testuser1".to_string(), "testpassword1".to_string()),
+    User::new(2, "testuser2".to_string(), "testpassword2".to_string()),
+    User::new(3, "testuser3".to_string(), "testpassword3".to_string())]
 }
