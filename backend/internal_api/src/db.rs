@@ -1,6 +1,4 @@
 use sqlx::postgres::{PgPoolOptions, PgPool};
-use serde::{Serialize, Deserialize};
-use sqlx::FromRow;
 use crate::models::user::User;
 use dotenv;
 
@@ -86,7 +84,7 @@ impl Db {
         match self.pool {
             Some(pool) => {
                 match sqlx::query_as::<_, User>("SELECT * FROM users").fetch_all(&pool).await {
-                    Ok(rows) => {Some(rows)}
+                    Ok(rows) => Some(rows),
                     Err(err) => {
                         warn!("Database query error: {}", err);
                         None
@@ -97,6 +95,39 @@ impl Db {
                 warn!("No database connections exist.");
                 None
             }
+        }
+    }
+
+    pub async fn migrate(&self) {
+        match &self.pool {
+            Some(pool) => {
+                match sqlx::migrate!().run(&*pool).await {
+                    Ok(_) => info!("Database migration complete"),
+                    Err(e) => warn!("Database migration error. {}", e)
+                }
+            }
+            None => warn!("No database connections exist")
+        }
+    }
+
+
+    pub async fn seed_data(&self) {
+        match &self.pool {
+            Some(pool) => {
+                match sqlx::query_file!("./src/models/queries/sample-user1.psql")
+                .execute(*&pool)
+                .await {
+                    Ok(_) => info!("Seeded test user 1."),
+                    Err(e) => warn!("Seeding error: {}", e)
+                }
+                match sqlx::query_file!("./src/models/queries/sample-user2.psql")
+                .execute(*&pool)
+                .await {
+                    Ok(_) => info!("Seeded test user 2."),
+                    Err(e) => warn!("Seeding error: {}", e)
+                }
+            }
+            None => warn!("No database connections exist.")
         }
     }
 }
