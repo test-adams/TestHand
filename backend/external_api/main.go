@@ -10,23 +10,23 @@ import (
 )
 
 func main() {
-	r := gin.New()
+	router := gin.New()
 	pgdb := db.EnvConnect()
 	log.SetFlags(2)
-	r.Use(gin.LoggerWithFormatter(
+	router.Use(gin.LoggerWithFormatter(
 		func(param gin.LogFormatterParams) string {
 			return fmt.Sprintf("[XAPI INFO] %s %s -> %d\n", param.Method, param.Path, param.StatusCode)
 		}))
-	r.Use(gin.Recovery())
+	router.Use(gin.Recovery())
 
-	r.GET("/ping", func(c *gin.Context) {
+	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
 	})
 
-	api.GroupApi(r, pgdb)
+	api.GroupApi(router, pgdb)
 
-	r.Run(fmt.Sprintf(":%d", pgdb.Port))
+	router.Run(fmt.Sprintf(":%d", pgdb.Port))
 	pgdb.Close()
 }
