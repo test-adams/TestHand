@@ -1,5 +1,6 @@
 use serde::{Serialize, Deserialize};
 use sqlx::{FromRow};
+use crate::db::Db;
 
 #[derive(Serialize, Deserialize, FromRow)]
 pub struct User {
@@ -9,9 +10,42 @@ pub struct User {
 
 impl User {
     pub fn new(id:i32, username: String) -> Self {
-        return Self {
+        Self {
             id: id,
             username: username
+        }
+    }
+
+    pub async fn from_db(db: &Db, id:String) -> Option<Self> {
+        match &db.pool {
+            Some(pool) => {
+                match sqlx::query_as::<_, Self>(&format!("SELECT * FROM users WHERE id = {};", id))
+                .fetch_one(*&pool).await {
+                    Ok(user) => Some(user),
+                    Err(err) => {
+                        warn!("Database query error: {}", err);
+                        None
+                    }
+                }
+            }
+            None => {
+                warn!("No database connections exist.");
+                None
+            }
+        }
+    }
+
+    pub async fn to_db(&self, db: &Db) {
+        let q = format!("INSERT INTO users(id, username) VALUES ({}, '{}')", self.id, self.username);
+        match &db.pool {
+            Some(pool) => {
+                match sqlx::query(&q)
+                .execute(&*pool).await {
+                    Ok(_) => info!("User created."),
+                    Err(e) => warn!("User creation error: {}", e)
+                }
+            }
+            None => warn!("No database connections exist.")
         }
     }
 }
