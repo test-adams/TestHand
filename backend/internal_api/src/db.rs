@@ -1,4 +1,6 @@
 use sqlx::postgres::{PgPoolOptions, PgPool};
+use serde::{Serialize, Deserialize};
+use sqlx::FromRow;
 use crate::models::user::User;
 use dotenv;
 
@@ -53,6 +55,29 @@ impl Db {
             Err(err) => {
                 warn!("Database connection error: {}", err);
                 None
+            }
+        }
+    }
+
+    pub async fn delete_kind_by_id(&self, kind:&str, id:&str) -> bool {
+        match &self.pool {
+            Some(pool) => {
+                match sqlx::query(&format!("DELETE FROM {} WHERE id = {};", kind, id))
+                .execute(&*pool)
+                .await {
+                    Ok(_) => {
+                        info!("Deleted {}.", kind);
+                        true
+                    },
+                    Err(e) => {
+                        warn!("Delete error: {}", e);
+                        false
+                    }
+                }
+            }
+            None => {
+                warn!("No database connections exist.");
+                false
             }
         }
     }
