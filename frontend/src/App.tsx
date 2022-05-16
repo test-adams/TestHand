@@ -13,7 +13,7 @@ function App() {
 	const notFound = <NotFound/>
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
        <Routes>
           <Route path="/" element={<AppBar />}>
 						<Route path="/" element={landingPage}/>
