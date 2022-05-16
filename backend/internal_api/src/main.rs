@@ -1,6 +1,6 @@
 #[macro_use]
 extern crate log;
-mod user;
+mod models;
 mod logger;
 mod api;
 mod config;
