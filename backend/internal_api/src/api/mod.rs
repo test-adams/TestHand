@@ -1,8 +1,11 @@
+pub mod user;
+pub mod item;
+
 use actix_web::{web, get, Scope, HttpResponse, Responder};
 use serde::{Serialize, Deserialize};
-use crate::models::user::test_users;
 use crate::logger;
 use crate::SessionData;
+use crate::api;
 
 static PREFIX:&str = "/api";
 
@@ -12,11 +15,18 @@ struct ApiStatus {
     db_active: bool
 }
 
+#[derive(Serialize, Deserialize)]
+struct HttpError {
+    status_code: i32,
+    message: String
+}
+
 // return scope for api prefix with added function routes
 pub fn config() -> Scope {
     web::scope(PREFIX)
         .service(status)
-        .service(all_users)
+        .service(api::user::config())
+        .service(api::item::config())
 }
 
 // helper to log api routes reached
@@ -39,17 +49,3 @@ async fn status(data: web::Data<SessionData>) -> impl Responder {
     HttpResponse::Ok().json(status)
 }
 
-#[get("/users")] // all users
-async fn all_users(data: web::Data<SessionData>) -> impl Responder {
-    log_api("GET", "/users");
-    let db = data.db.clone();
-
-    match db.get_users().await {
-        Some(users) => {
-            HttpResponse::Ok().json(users)
-        }
-        None => {
-            HttpResponse::Ok().json(test_users())
-        }
-    }
-}
