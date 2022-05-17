@@ -39,7 +39,7 @@ async fn create_user(data: web::Data<SessionData>, user_json: web::Json<User>) -
     log_user("POST", "");
     let user: User = user_json.into_inner();
     user.to_db(&data.db).await;
-    HttpResponse::Ok().json(user)
+    HttpResponse::Created().json(user)
 } 
 
 #[get("/{id}")]
