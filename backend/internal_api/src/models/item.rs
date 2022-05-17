@@ -40,6 +40,25 @@ impl Item {
             None => warn!("No database connections exist.")
         }
     }
+
+    pub async fn from_db(db: &Db, id:String) -> Option<Self> {
+        match &db.pool {
+            Some(pool) => {
+                match sqlx::query_as::<_, Self>(&format!("SELECT * FROM items WHERE id = {};", id))
+                .fetch_one(*&pool).await {
+                    Ok(item) => Some(item),
+                    Err(err) => {
+                        warn!("Database query error: {}", err);
+                        None
+                    }
+                }
+            },
+            None => {
+                warn!("No database connections exist");
+                None
+            }
+        }
+    }
 }
 
 pub fn test_items() -> [Item; 2] {

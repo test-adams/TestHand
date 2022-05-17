@@ -1,13 +1,14 @@
 use actix_web::{web, get, post, delete, Scope, HttpResponse, Responder};
 use crate::SessionData;
 use crate::api::{log_api, HttpError};
-use crate::models::item::test_items;
+use crate::models::item::{Item, test_items};
 
 static ITEM_PREFIX:&str = "/item";
 
 pub fn config() -> Scope {
     web::scope(ITEM_PREFIX)
     .service(all_items)
+    .service(item_by_id)
 }
 
 pub fn log_item(method:&str, route:&str) {
@@ -25,5 +26,18 @@ async fn all_items(data: web::Data<SessionData>) -> impl Responder {
         None => {
             HttpResponse::Ok().json(test_items())
         }
+    }
+}
+
+#[get("/{id}")]
+async fn item_by_id(data: web::Data<SessionData>, id: web::Path<String>) -> impl Responder {
+    let id_str = id.into_inner();
+    log_item("GET", &format!("/{}", id_str));
+    match Item::from_db(&data.db, id_str).await {
+        Some(item) => HttpResponse::Ok().json(item),
+        None => HttpResponse::BadRequest().json(HttpError {
+            status_code: 400,
+            message: "item not found".to_string()
+        })
     }
 }
