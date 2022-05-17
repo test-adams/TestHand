@@ -1,4 +1,3 @@
--- Add migration script here
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY NOT NULL,
     username varchar(255) NOT NULL,
@@ -6,5 +5,10 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS items (
-    id SERIAL PRIMARY KEY NOT NULL
-)
+    id SERIAL PRIMARY KEY NOT NULL,
+    name varchar(255) NOT NULL,
+    is_lent_item BOOLEAN,
+    img_uri TEXT,
+    lend_start TIMESTAMP,
+    lend_end TIMESTAMP
+);
