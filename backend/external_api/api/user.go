@@ -30,7 +30,7 @@ func get_users(c *gin.Context, db *db.DbConfig) {
 	var users []models.User
 	for rows.Next() {
 		var user models.User
-		rows.Scan(&user.Id, &user.Username)
+		rows.Scan(&user.Id, &user.Username, &user.Password)
 		users = append(users, user)
 	}
 	defer rows.Close()
@@ -41,7 +41,7 @@ func get_users(c *gin.Context, db *db.DbConfig) {
 
 func get_user(c *gin.Context, db *db.DbConfig, id int) {
 	var user models.User
-	err := db.QueryOne("SELECT * FROM users WHERE id=$1", id).Scan(&user.Id, &user.Username)
+	err := db.QueryOne("SELECT * FROM users WHERE id=$1", id).Scan(&user.Id, &user.Username, &user.Password)
 	if err == nil {
 		c.JSON(200, gin.H{
 			"user": user,
