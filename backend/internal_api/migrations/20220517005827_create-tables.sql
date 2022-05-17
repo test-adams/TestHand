@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS items (
     name varchar(255) NOT NULL,
     is_lent_item BOOLEAN,
     img_uri TEXT,
-    lend_start TIMESTAMP,
-    lend_end TIMESTAMP
+    lend_start TIMESTAMPTZ,
+    lend_end TIMESTAMPTZ
 );
