@@ -1,3 +1,0 @@
-INSERT INTO users VALUES (2, 'db_testuser2', 'db_password2');
-
- 

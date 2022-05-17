@@ -38,7 +38,6 @@ async fn main() -> io::Result<()> {
     let db:db::Db = db::Db::from_env().await;
     db.migrate().await;
     db.seed_data().await;
-
     // start server at HOST:PORT, persisting Db connection
     HttpServer::new(move || {
         App::new()

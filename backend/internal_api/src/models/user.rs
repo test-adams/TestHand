@@ -39,7 +39,7 @@ impl User {
     }
 
     pub async fn to_db(&self, db: &Db) {
-        let q = format!("INSERT INTO users(id, username) VALUES ({}, '{}', '{}');", self.id, self.username, self.password);
+        let q = format!("INSERT INTO users VALUES ({}, '{}', '{}');", self.id, self.username, self.password);
         match &db.pool {
             Some(pool) => {
                 match sqlx::query(&q)
