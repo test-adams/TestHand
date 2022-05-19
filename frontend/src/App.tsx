@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { HashRouter, Outlet, Route, Routes } from "react-router-dom"; // remember to import/change HashRouter to BrowserRouter if not gh-pages
 import AppBar from './Components/AppBar';
 import LandingPage from './Components/LandingPage';
 import NotFound from './Components/NotFound';
@@ -34,7 +34,7 @@ function App() {
 
   return (
 	
-			<BrowserRouter >
+			<HashRouter >
 				<Routes>
 
 					<Route path={ROUTER_PATHS.landing} element={<Page/>}>
@@ -50,7 +50,7 @@ function App() {
 					<Route path={ROUTER_PATHS.error} element={notFound}/>
 
 				</Routes>
-			</BrowserRouter>
+			</HashRouter>
   );
 }
 
