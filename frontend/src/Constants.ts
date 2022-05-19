@@ -47,5 +47,6 @@ export const PROFILE = {
 export const LOGIN = {
 	SubmitStatement1: 'Welcome ',
 	SubmitStatement2: ' !',
-	Title: 'Login'
+	Title: 'Login',
+	HelperText: '*Field is required.'
 }

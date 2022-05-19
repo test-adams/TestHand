@@ -1,5 +1,6 @@
 import { Typography, Box, TextField, Paper, Container, Button } from "@mui/material"
 import { useState } from 'react';
+import React from 'react'
 import {LOGIN} from '../Constants'
 
 
@@ -8,7 +9,7 @@ interface userInfo {
 	password: string
 }
 
-const blank_info: userInfo = {
+const default_form_values: userInfo = {
 	name: '',
 	password: ''
 }
@@ -16,22 +17,62 @@ const blank_info: userInfo = {
 
 const LoginPage = () => {
 
-	let [infoState, setInfoState] = useState(blank_info);
+	let [infoState, setInfoState] = useState(default_form_values);
 	let [hasSubmit, setHasSubmit] = useState(false);
+
+	let [nameError, setNameError] = useState(false);
+	let [passwordError, setPasswordError] = useState(false);
+
+	let [nameHelperText, setNameHelperText] = useState("")
+	let [passwordHelperText, setPasswordHelperText] = useState("")
+
+
+	const isValidSubmit = (name: string, password: string): Boolean => {
+		let isValid = true;
+
+		if(name === default_form_values.name) {
+			setNameError(true);
+			setNameHelperText(LOGIN.HelperText);
+			isValid = false;
+		} else {
+			setNameError(false);
+			setNameHelperText('');
+		}
+
+		if(password === default_form_values.password) {
+			setPasswordError(true);
+			setPasswordHelperText(LOGIN.HelperText);
+			isValid = false;
+		} else {
+			setPasswordError(false);
+			setPasswordHelperText('');
+		}
+
+		return isValid;
+	}
 
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
+		const name = event.target[0].value
+		const password = event.target[1].value
 
-		console.log(event.target[0].value);
-		console.log(event.target[1].value);
+		if(isValidSubmit(name, password)){
 
-		let newInfo: userInfo = {
-			name: event.target[0].value,
-			password: event.target[1].value
+			console.log(event.target[0].value);
+			console.log(event.target[1].value);
+
+			let newInfo: userInfo = {
+				name: event.target[0].value,
+				password: event.target[1].value
+			}
+
+			setInfoState(newInfo);
+			setHasSubmit(true);
+		} else {
+			setInfoState(default_form_values);
+			setHasSubmit(false);
 		}
 
-		setInfoState(newInfo);
-		setHasSubmit(true);
 	}
 
 	
@@ -62,18 +103,22 @@ const LoginPage = () => {
 							<Box sx={{p:2}} display='flex' justifyContent='center' flexDirection={'column'}>
 
 									<TextField
-										required
+									
+										error={nameError}
+										helperText={nameHelperText}
 										id = 'user-name'
 										variant = 'filled'
-										label = 'User Name'
+										label = '*User Name'
 									/>
 
 								<TextField
-									required
+									
+									error={passwordError}
+									helperText={passwordHelperText}
 									sx={{mt:2}}
 									id = 'user-password'
 									variant = 'filled'
-									label = 'Password'
+									label = '*Password'
 								/>
 								<Button sx={{mt:2}} variant='contained' type='submit' value='Submit'>Submit</Button>
 							</Box>
