@@ -1,3 +1,5 @@
+export const BASENAME =  process.env.PUBLIC_URL
+
 export const ROUTER_PATHS = {
 	landing: '/',
 	lend: '/lend',
