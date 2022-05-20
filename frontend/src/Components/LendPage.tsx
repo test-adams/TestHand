@@ -1,4 +1,4 @@
-import { Typography, Box, Paper, Button } from "@mui/material";
+import { Typography, Box, Paper, Button, Table, TableBody, TableRow, TableCell } from "@mui/material";
 import { LEND } from "../Constants";
 import { LendMock } from "../MockData";
 
@@ -18,9 +18,22 @@ const ItemCard = (props: cardProps) => {
 				<img alt = 'card' width={200} height={200} src={props.imguri}/>
 			</Box>
 			<Box ml={2} mr={2}>
-				<Typography variant='h5'>Item: {props.item}</Typography>
-				<Typography variant='h5'>Lend Length: {props.lend_time}</Typography>
-				<Typography variant='h5'>Lender: {props.lender}</Typography>
+				<Table>
+					<TableBody>
+						<TableRow>
+							<TableCell><Typography variant='h5'>Item: </Typography></TableCell>
+							<TableCell><Typography variant='h5'>{props.item}</Typography></TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell><Typography variant='h5'>Lend Length: </Typography></TableCell>
+							<TableCell><Typography variant='h5'>{props.lend_time}</Typography></TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell><Typography variant='h5'>Lender: </Typography></TableCell>
+							<TableCell><Typography variant='h5'>{props.lender}</Typography></TableCell>
+						</TableRow>
+					</TableBody>
+				</Table>
 				<br/><br/>
 				<Button size='large' variant='contained'>Request!</Button>
 			</Box>
