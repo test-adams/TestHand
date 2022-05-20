@@ -1,4 +1,4 @@
-import { Typography, Box, Paper, Button, Table, TableBody, TableRow, TableCell } from "@mui/material";
+import { Typography, Box, Paper, Button, Table, TableBody, TableRow, TableCell, Grid } from "@mui/material";
 import { LEND } from "../Constants";
 import { LendMock } from "../MockData";
 
@@ -11,29 +11,31 @@ interface cardProps {
 }
 
 
+
 const ItemCard = (props: cardProps) => {
 	return(
 		<Box sx={{ p:1, border: '1px solid', borderRadius: '10px'	}} display='flex'>
 			<Box>
-				<img alt = 'card' width={200} height={200} src={props.imguri}/>
+				<img alt='lend-card-img' width={200} height={200} src={props.imguri}/>
 			</Box>
-			<Box ml={2} mr={2}>
+			<Box sx={{flexGrow: 1}} ml={2} mr={2} width={1}>
 				<Table>
 					<TableBody>
 						<TableRow>
-							<TableCell><Typography variant='h5'>Item: </Typography></TableCell>
-							<TableCell><Typography variant='h5'>{props.item}</Typography></TableCell>
+							<TableCell width={1} align='left'><Typography variant='h5'>Item: </Typography></TableCell>
+							<TableCell align='left'><Typography variant='h5'>{props.item}</Typography></TableCell>
 						</TableRow>
 						<TableRow>
-							<TableCell><Typography variant='h5'>Lend Length: </Typography></TableCell>
-							<TableCell><Typography variant='h5'>{props.lend_time}</Typography></TableCell>
+							<TableCell width={1} align='left'><Typography variant='h5'>Time: </Typography></TableCell>
+							<TableCell align='left'><Typography variant='h5'>{props.lend_time}</Typography></TableCell>
 						</TableRow>
 						<TableRow>
-							<TableCell><Typography variant='h5'>Lender: </Typography></TableCell>
-							<TableCell><Typography variant='h5'>{props.lender}</Typography></TableCell>
+							<TableCell width={1} align='left'><Typography variant='h5'>Lender: </Typography></TableCell>
+							<TableCell align='left'><Typography variant='h5'>{props.lender}</Typography></TableCell>
 						</TableRow>
 					</TableBody>
 				</Table>
+				
 				<br/><br/>
 				<Button size='large' variant='contained'>Request!</Button>
 			</Box>
@@ -70,12 +72,13 @@ const LendPage = () => {
 				</Typography>
 			</Box>
 
-			<Box mt={10} display='flex' justifyContent='center'>
+			<Box mt={5} display='flex' justifyContent='center'>
 				<Paper elevation={10}>
 					<Box sx={{p:2}} display='flex' justifyContent='center'>
 						<Typography sx={{textDecoration: 'underline'}} variant='h4' color='primary'>
 							Items ready to be lent!
 						</Typography>
+						<Button size='medium' sx={{ml: 2}} variant='contained' color='success'><Typography variant='h6' sx={{textTransform: 'none'}}>Lend an Item</Typography></Button>
 					</Box>
 					<Box sx={{p:2}}>
 						<ItemCard {...mockProps1}/>
