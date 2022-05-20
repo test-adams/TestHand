@@ -58,3 +58,5 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }} # might need to edit permissions here
         publish_dir: ./frontend/build
+        force_orphan: true            # ensure each new deployment is based on the latest build
+                                      # to prevent default Jekyll artifact replacing our production-files
