@@ -6,7 +6,8 @@ mod api;
 mod config;
 mod db;
 
-use actix_web::{get, App, web, HttpResponse, HttpServer, Responder};
+use actix_web::{get, App, web, HttpResponse, HttpServer, Responder, http};
+use actix_cors::Cors;
 use std::io;
 
 struct SessionData {
@@ -38,10 +39,22 @@ async fn main() -> io::Result<()> {
     let db:db::Db = db::Db::from_env().await;
     db.migrate().await;
     db.seed_data().await;
+
+    let host = config.host.clone();
+
     // start server at HOST:PORT, persisting Db connection
     HttpServer::new(move || {
+        
+        let cors = Cors::default()
+                .allowed_origin(&host)
+                .allowed_methods(vec!["GET", "POST", "DELETE", "PUT"])
+                .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
+                .allowed_header(http::header::CONTENT_TYPE)
+                .max_age(3600);
+        
         App::new()
             .app_data(web::Data::new(SessionData {db: db.clone()}))
+            .wrap(cors)
             .service(test)
             .service(api::config())
     })
