@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/FullStack-GroupProject-Spring22/static/css/main.15be4434.css",
+    "main.js": "/FullStack-GroupProject-Spring22/static/js/main.c3c150a1.js",
+    "index.html": "/FullStack-GroupProject-Spring22/index.html",
+    "main.15be4434.css.map": "/FullStack-GroupProject-Spring22/static/css/main.15be4434.css.map",
+    "main.c3c150a1.js.map": "/FullStack-GroupProject-Spring22/static/js/main.c3c150a1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.15be4434.css",
+    "static/js/main.c3c150a1.js"
+  ]
+}
